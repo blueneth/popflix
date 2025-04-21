@@ -55,7 +55,7 @@
     }
 
     .modal {
-      position: left;
+      position: center;
       top: 0; left: 0;
       width: 200%; height: 100%;
       background: rgba(0,0,0,0.8);
@@ -69,9 +69,9 @@
       background: #222;
       padding: 20px;
       width: 80%;
-      max-width: 150px;
+      max-width: 2000px;
       text-align: center;
-      position: center;
+      position: left;
 
     }
 
