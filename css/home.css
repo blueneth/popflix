@@ -68,8 +68,7 @@
     .modal-content {
       background: #222;
       padding: 20px;
-      width: 0%;
-      max-width: 100px;
+      width: 80%;
       text-align: center;
       position: relative;
     }
