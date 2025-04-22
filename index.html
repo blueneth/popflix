@@ -17,15 +17,12 @@
     <script src="https://kulroakonsu.net/88/tag.min.js" data-zone="143710" async data-cfasync="false"></script>
 </head>
 
-<body><amp-auto-ads type="adsense"
-        data-ad-client="ca-pub-6133007248007279">
-</amp-auto-ads>
+
+<body>
   <div class="navbar">
     <img src="logo.png" alt="LOGO HERE" />
     <div class="nav-links">
       <a href="index.html">Home</a>
-      <a href="#">Disclaimer</a>
-      <a href="#">About Us</a>
       <input type="text" class="search-bar" placeholder="Search..." onfocus="openSearchModal()" />
     </div>
   </div>
@@ -33,21 +30,7 @@
   <div class="banner" id="banner">
     <h1 id="banner-title"></h1>
   </div>
-<div class="ad-container" style="text-align: center; margin: 20px 0;">
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6133007248007279"
-     crossorigin="anonymous"></script>
-<!-- AdsByAdesne -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-6133007248007279"
-     data-ad-slot="9181622927"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-</div>
-  
+
   <div class="row">
     <h2>Trending Movies</h2>
     <div class="list" id="movies-list"></div>
@@ -62,58 +45,47 @@
     <h2>Trending Anime</h2>
     <div class="list" id="anime-list"></div>
   </div>
-  
-  
 
-   <div class="modal" id="modal">
+  <div class="modal" id="modal">
     <div class="modal-content">
-      <span class="close" onclick="closeModal()">&times;</span>
-      <h2 id="modal-title"></h2>
-          <iframe id="modal-video" width="100%" height="500px" frameborder="0" allowfullscreen></iframe>
+      <span class="close" onclick="closeModal()" style="color: red;">&times;</span>
+      <div class="modal-body">
+  <img id="modal-image" src="" alt="" />
+  <div class="modal-text">
+    <h2 id="modal-title"></h2>
+    <div class="stars" id="modal-rating"></div>
+    <p id="modal-description"></p>
+  </div>
+</div>
+      
       <div class="server-selector">
         <label for="server">Change Server:</label>
         <select id="server" onchange="changeServer()">
           <option value="vidsrc.cc">Vidsrc.cc</option>
           <option value="vidsrc.me">Vidsrc.me</option>
           <option value="player.videasy.net">Player.Videasy.net</option>
-        </select>  
-      
-      <div class="stars" id="modal-rating"></div>
-      <p id="modal-description"></p>
-      <img id="modal-image" src="" alt="" />
-      <br/><br/><br/>
-
+        </select>
       </div>
+      <iframe id="modal-video" width="100%" height="315" frameborder="0" allowfullscreen></iframe>
     </div>
-     
-     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6133007248007279"
-     crossorigin="anonymous"></script>
-<ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-6133007248007279"
-     data-ad-slot="8798479545"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
   </div>
 
-  <amp-ad width="100vw" height="320"
-     type="adsense"
-     data-ad-client="ca-pub-6133007248007279"
-     data-ad-slot="9181622927"
-     data-auto-format="rspv"
-     data-full-width="">
-  <div overflow=""></div>
-</amp-ad>
-  
   <div class="search-modal" id="search-modal">
-    <span class="close" onclick="closeSearchModal()">&times;</span>
+    <span class="close" onclick="closeSearchModal()" style="color: red;">&times;</span>
     <input type="text" id="search-input" placeholder="Search for a movie or show..." oninput="searchTMDB()" />
     <div class="results" id="search-results"></div>
   </div>
-    <amp-auto-ads type="adsense"
-        data-ad-client="ca-pub-6133007248007279">
-</amp-auto-ads>
+
+<footer class="footer">
+  <div class="footer-content">
+    <p>&copy; 2025 My Website. All rights reserved.</p>
+    <div class="footer-links">
+      <a href="#">Disclaimer</a>
+      <a href="#">About Us</a>
+      <a href="#">Contact Us</a>
+    </div>
+  </div>
+</footer>
+
+  
 </body></html>
