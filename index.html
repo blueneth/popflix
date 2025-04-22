@@ -44,31 +44,16 @@
 <div class="row">
     <h2>Trending Movies</h2>
     <div class="list" id="movies-list"></div>
- <div class="pagination">
-      <button onclick="prevPage('movie')" id="movie-prev">Previous</button>
-      <span id="movie-page">Page 1</span>
-      <button onclick="nextPage('movie')" id="movie-next">Next</button>
-    </div>
   </div>
 
   <div class="row">
     <h2>Trending TV Shows</h2>
     <div class="list" id="tvshows-list"></div>
-       <div class="pagination">
-      <button onclick="prevPage('tv')" id="tv-prev">Previous</button>
-      <span id="tv-page">Page 1</span>
-      <button onclick="nextPage('tv')" id="tv-next">Next</button>
-    </div>
   </div>
 
   <div class="row">
     <h2>Trending Anime</h2>
     <div class="list" id="anime-list"></div>
-       <div class="pagination">
-      <button onclick="prevPage('anime')" id="anime-prev">Previous</button>
-      <span id="anime-page">Page 1</span>
-      <button onclick="nextPage('anime')" id="anime-next">Next</button>
-    </div>
   </div>
 
  
@@ -147,66 +132,5 @@ If you believe any content on this site infringes your copyright, please contact
 </footer>
 
 
-   <script>
-    const API_KEY = "9207d96c1512b3cca9fd8206b4a4b662"; // Replace with your TMDB API key
-
-    const state = {
-      movie: { page: 1, total: 1 },
-      tv: { page: 1, total: 1 },
-      anime: { page: 1, total: 1 },
-    };
-
-    function getEndpoint(type, page) {
-      if (type === "movie") {
-        return `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=en-US&page=${page}`;
-      } else if (type === "tv") {
-        return `https://api.themoviedb.org/3/tv/popular?api_key=${API_KEY}&language=en-US&page=${page}`;
-      } else if (type === "anime") {
-        return `https://api.themoviedb.org/3/discover/tv?api_key=${API_KEY}&with_genres=16&language=en-US&page=${page}`;
-      }
-    }
-
-    function loadCategory(type) {
-      const { page } = state[type];
-      fetch(getEndpoint(type, page))
-        .then(res => res.json())
-        .then(data => {
-          state[type].total = data.total_pages;
-
-          const list = document.getElementById(`${type}-list`);
-          list.innerHTML = "";
-
-          data.results.forEach(item => {
-            const title = item.title || item.name;
-            const poster = item.poster_path ? `https://image.tmdb.org/t/p/w200${item.poster_path}` : "https://via.placeholder.com/150x225?text=No+Image";
-            const card = document.createElement("div");
-            card.classList.add("item");
-            card.innerHTML = `<img src="${poster}" alt="${title}" /><h4>${title}</h4>`;
-            list.appendChild(card);
-          });
-
-          document.getElementById(`${type}-page`).textContent = `Page ${page}`;
-          document.getElementById(`${type}-prev`).disabled = page === 1;
-          document.getElementById(`${type}-next`).disabled = page === state[type].total;
-        });
-    }
-
-    function nextPage(type) {
-      if (state[type].page < state[type].total) {
-        state[type].page++;
-        loadCategory(type);
-      }
-    }
-
-    function prevPage(type) {
-      if (state[type].page > 1) {
-        state[type].page--;
-        loadCategory(type);
-      }
-    }
-
-    // Load all categories on page load
-    ["movie", "tv", "anime"].forEach(loadCategory);
-  </script>
-  
+   
 </body></html>
