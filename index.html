@@ -27,68 +27,7 @@
 
 <body>
 
- <script>
-  const API_KEY = "9207d96c1512b3cca9fd8206b4a4b662"; // Replace with your TMDB API key
- let currentPage = 1;
-  let totalPages = 1;
-  let currentType = "movie"; // can be "movie", "tv", or "anime"
-
-  function getEndpoint(type, page) {
-    if (type === "movie") {
-      return `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=en-US&page=${page}`;
-    } else if (type === "tv") {
-      return `https://api.themoviedb.org/3/tv/popular?api_key=${API_KEY}&language=en-US&page=${page}`;
-    } else if (type === "anime") {
-      return `https://api.themoviedb.org/3/discover/tv?api_key=${API_KEY}&with_genres=16&language=en-US&page=${page}`;
-    }
-  }
-
-  function loadContent(type = "movie", page = 1) {
-    currentType = type;
-    fetch(getEndpoint(type, page))
-      .then(res => res.json())
-      .then(data => {
-        totalPages = data.total_pages;
-        const list = document.getElementById("content-list");
-        list.innerHTML = "";
-
-        data.results.forEach(item => {
-          const card = document.createElement("div");
-          card.classList.add("item");
-          card.innerHTML = `
-            <img src="https://image.tmdb.org/t/p/w200${item.poster_path}" alt="${item.title || item.name}" />
-            <h3>${item.title || item.name}</h3>
-          `;
-          list.appendChild(card);
-        });
-
-        document.getElementById("section-title").textContent =
-          type === "movie" ? "Trending Movies" :
-          type === "tv" ? "Trending TV Shows" : "Trending Anime";
-
-        document.getElementById("pageNumber").textContent = `Page ${page}`;
-        document.getElementById("prevBtn").disabled = page === 1;
-        document.getElementById("nextBtn").disabled = page === totalPages;
-      });
-  }
-
-  function nextPage() {
-    if (currentPage < totalPages) {
-      currentPage++;
-      loadContent(currentType, currentPage);
-    }
-  }
-
-  function prevPage() {
-    if (currentPage > 1) {
-      currentPage--;
-      loadContent(currentType, currentPage);
-    }
-  }
-
-  // Initial load
-  loadContent("movie"); // Default to movies
-</script>
+ 
   <div class="navbar">
     <img src="popflix.jpg" alt="POPFlix: PopCorn and Chill Media Movie Streaming" height="100" width="70"/>
     <div class="nav-links">
@@ -102,7 +41,7 @@
     <h1 id="banner-title"></h1>
   </div>
 
-  <div class="row">
+<div class="row">
     <h2>Trending Movies</h2>
     <div class="list" id="movies-list"></div>
   </div>
