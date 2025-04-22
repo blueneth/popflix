@@ -42,16 +42,31 @@
   <div class="row">
     <h2>Trending Movies</h2>
     <div class="list" id="movies-list"></div>
+   <div class="pagination">
+  <button onclick="prevPage()" id="prevBtn">Previous</button>
+  <span id="pageNumber">Page 1</span>
+  <button onclick="nextPage()" id="nextBtn">Next</button>
+</div>
   </div>
 
   <div class="row">
     <h2>Trending TV Shows</h2>
     <div class="list" id="tvshows-list"></div>
+   <div class="pagination">
+  <button onclick="prevPage()" id="prevBtn">Previous</button>
+  <span id="pageNumber">Page 1</span>
+  <button onclick="nextPage()" id="nextBtn">Next</button>
+</div>
   </div>
 
   <div class="row">
     <h2>Trending Anime</h2>
     <div class="list" id="anime-list"></div>
+   <div class="pagination">
+  <button onclick="prevPage()" id="prevBtn">Previous</button>
+  <span id="pageNumber">Page 1</span>
+  <button onclick="nextPage()" id="nextBtn">Next</button>
+</div>
   </div>
 
   <div class="modal" id="modal">
@@ -128,5 +143,41 @@ If you believe any content on this site infringes your copyright, please contact
   </script>
 </footer>
 
+
+ <script>
+  let currentPage = 1;
+  const itemsPerPage = 10; // Or however many items per page
+  let totalPages = 1; // Set this dynamically after fetching data
+
+  function loadMovies(page = 1) {
+    fetch(`https://api.example.com/movies?page=${page}`) // Replace with your actual API or logic
+      .then(response => response.json())
+      .then(data => {
+        totalPages = data.total_pages; // adjust based on your API
+        document.getElementById("movies-list").innerHTML = ""; // clear list
+        data.results.forEach(movie => {
+          // Create and append movie elements here
+        });
+        document.getElementById("pageNumber").textContent = `Page ${page}`;
+      });
+  }
+
+  function nextPage() {
+    if (currentPage < totalPages) {
+      currentPage++;
+      loadMovies(currentPage);
+    }
+  }
+
+  function prevPage() {
+    if (currentPage > 1) {
+      currentPage--;
+      loadMovies(currentPage);
+    }
+  }
+
+  // Initial Load
+  loadMovies(currentPage);
+</script>
   
 </body></html>
