@@ -284,3 +284,15 @@
     gap: 8px;
   }
 }
+
+.pagination {
+  text-align: center;
+  margin: 20px;
+}
+
+.pagination button {
+  padding: 10px 20px;
+  margin: 5px;
+  font-size: 1em;
+  cursor: pointer;
+}
