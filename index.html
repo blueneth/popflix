@@ -144,21 +144,34 @@ If you believe any content on this site infringes your copyright, please contact
 </footer>
 
 
- <script>
+<script>
+  const API_KEY = "9207d96c1512b3cca9fd8206b4a4b662"; // Replace with your TMDB API key
   let currentPage = 1;
-  const itemsPerPage = 10; // Or however many items per page
-  let totalPages = 1; // Set this dynamically after fetching data
+  let totalPages = 1;
 
   function loadMovies(page = 1) {
-    fetch(`https://api.example.com/movies?page=${page}`) // Replace with your actual API or logic
+    fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=en-US&page=${page}`)
       .then(response => response.json())
       .then(data => {
-        totalPages = data.total_pages; // adjust based on your API
-        document.getElementById("movies-list").innerHTML = ""; // clear list
+        const movieList = document.getElementById("movies-list");
+        movieList.innerHTML = ""; // Clear old results
+
+        totalPages = data.total_pages;
+
         data.results.forEach(movie => {
-          // Create and append movie elements here
+          const movieItem = document.createElement("div");
+          movieItem.classList.add("movie-item");
+          movieItem.innerHTML = `
+            <img src="https://image.tmdb.org/t/p/w200${movie.poster_path}" alt="${movie.title}" />
+            <h3>${movie.title}</h3>
+            <p>${movie.release_date}</p>
+          `;
+          movieList.appendChild(movieItem);
         });
+
         document.getElementById("pageNumber").textContent = `Page ${page}`;
+        document.getElementById("prevBtn").disabled = page === 1;
+        document.getElementById("nextBtn").disabled = page === totalPages;
       });
   }
 
@@ -176,7 +189,7 @@ If you believe any content on this site infringes your copyright, please contact
     }
   }
 
-  // Initial Load
+  // Load page 1 on startup
   loadMovies(currentPage);
 </script>
   
