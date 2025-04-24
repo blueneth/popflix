@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>POPFlix Pagination + Modal</title>
+  <style>
+    .row { margin-bottom: 40px; }
+    .list { display: flex; flex-wrap: wrap; gap: 20px; }
+    .item { width: 150px; text-align: center; cursor: pointer; }
+    .item img { width: 100%; border-radius: 10px; }
+    .pagination { margin-top: 10px; }
+    button { padding: 6px 12px; margin: 5px; }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      top: 10%;
+      left: 20%;
+      width: 60%;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      border: 2px solid #ccc;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+    }
+    .modal img {
+      max-width: 200px;
+      float: left;
+      margin-right: 20px;
+      border-radius: 10px;
+    }
+    .modal-content { overflow: hidden; }
+    .modal .close {
+      float: right;
+      color: red;
+      font-size: 28px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Movie Section -->
+  <div class="row">
+    <h2>Trending Movies</h2>
+    <div class="list" id="movie-list"></div>
+    <div class="pagination">
+      <button onclick="prevPage('movie')">Previous</button>
+      <span id="movie-page">Page 1</span>
+      <button onclick="nextPage('movie')">Next</button>
+    </div>
+  </div>
+
+  <!-- TV Show Section -->
+  <div class="row">
+    <h2>Trending TV Shows</h2>
+    <div class="list" id="tv-list"></div>
+    <div class="pagination">
+      <button onclick="prevPage('tv')">Previous</button>
+      <span id="tv-page">Page 1</span>
+      <button onclick="nextPage('tv')">Next</button>
+    </div>
+  </div>
+
+  <!-- Anime Section -->
+  <div class="row">
+    <h2>Trending Anime</h2>
+    <div class="list" id="anime-list"></div>
+    <div class="pagination">
+      <button onclick="prevPage('anime')">Previous</button>
+      <span id="anime-page">Page 1</span>
+      <button onclick="nextPage('anime')">Next</button>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal" id="movie-modal">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <div class="modal-content">
+      <img id="modal-img" src="" alt="Poster" />
+      <div>
+        <h2 id="modal-title"></h2>
+        <p id="modal-overview"></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API_KEY = "9207d96c1512b3cca9fd8206b4a4b662"; // 👈 Replace with your TMDB API Key
+    const state = {
+      movie: { page: 1 },
+      tv: { page: 1 },
+      anime: { page: 1 }
+    };
+
+    function getEndpoint(type, page) {
+      const base = `https://api.themoviedb.org/3`;
+      if (type === "movie") return `${base}/movie/popular?api_key=${API_KEY}&language=en-US&page=${page}`;
+      if (type === "tv") return `${base}/tv/popular?api_key=${API_KEY}&language=en-US&page=${page}`;
+      if (type === "anime") return `${base}/discover/tv?api_key=${API_KEY}&with_genres=16&language=en-US&page=${page}`;
+    }
+
+    function loadCategory(type) {
+      const page = state[type].page;
+      fetch(getEndpoint(type, page))
+        .then(res => {
+          if (!res.ok) throw new Error("API Error");
+          return res.json();
+        })
+        .then(data => {
+          const list = document.getElementById(`${type}-list`);
+          list.innerHTML = "";
+
+          data.results.forEach(item => {
+            const title = item.title || item.name;
+            const imgSrc = item.poster_path
+              ? `https://image.tmdb.org/t/p/w200${item.poster_path}`
+              : "https://via.placeholder.com/150x225?text=No+Image";
+
+            const card = document.createElement("div");
+            card.className = "item";
+            card.innerHTML = `<img src="${imgSrc}" alt="${title}" /><div>${title}</div>`;
+            card.onclick = () => showModal(item);
+            list.appendChild(card);
+          });
+
+          document.getElementById(`${type}-page`).textContent = `Page ${page}`;
+        })
+        .catch(err => {
+          console.error(`${type.toUpperCase()} Load Error:`, err);
+          document.getElementById(`${type}-list`).textContent = "Failed to load.";
+        });
+    }
+
+    function nextPage(type) {
+      state[type].page++;
+      loadCategory(type);
+    }
+
+    function prevPage(type) {
+      if (state[type].page > 1) {
+        state[type].page--;
+        loadCategory(type);
+      }
+    }
+
+    function showModal(item) {
+      document.getElementById("modal-title").textContent = item.title || item.name;
+      document.getElementById("modal-img").src = item.poster_path
+        ? `https://image.tmdb.org/t/p/w300${item.poster_path}`
+        : "https://via.placeholder.com/200x300?text=No+Image";
+      document.getElementById("modal-overview").textContent = item.overview || "No description available.";
+      document.getElementById("movie-modal").style.display = "block";
+    }
+
+    function closeModal() {
+      document.getElementById("movie-modal").style.display = "none";
+    }
+
+    // Initial load
+    ["movie", "tv", "anime"].forEach(loadCategory);
+  </script>
+
+</body>
+</html>
