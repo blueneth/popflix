@@ -120,4 +120,13 @@ const API_KEY = '9207d96c1512b3cca9fd8206b4a4b662';
       displayList(anime, 'anime-list');
     }
 
+function showModal(item) {
+  document.getElementById("modal-title").textContent = item.title || item.name;
+  document.getElementById("modal-img").src = item.poster_path
+    ? `https://image.tmdb.org/t/p/w300${item.poster_path}`
+    : "https://via.placeholder.com/200x300?text=No+Image";
+  document.getElementById("modal-overview").textContent = item.overview || "No description available.";
+  document.getElementById("movie-modal").style.display = "block";
+}
+
     init();
