@@ -44,18 +44,84 @@
 <div class="row">
     <h2>Trending Movies</h2>
     <div class="list" id="movies-list"></div>
+ <div class="pagination">
+      <button onclick="prevPage('movie')">Previous</button>
+      <span id="movie-page">Page 1</span>
+      <button onclick="nextPage('movie')">Next</button>
+    </div>
   </div>
 
   <div class="row">
     <h2>Trending TV Shows</h2>
     <div class="list" id="tvshows-list"></div>
+     <div class="pagination">
+      <button onclick="prevPage('tv')">Previous</button>
+      <span id="tv-page">Page 1</span>
+      <button onclick="nextPage('tv')">Next</button>
+    </div>
   </div>
 
   <div class="row">
     <h2>Trending Anime</h2>
     <div class="list" id="anime-list"></div>
+   <div class="pagination">
+      <button onclick="prevPage('anime')">Previous</button>
+      <span id="anime-page">Page 1</span>
+      <button onclick="nextPage('anime')">Next</button>
+    </div>
   </div>
+<script>
+    const API_KEY = "YOUR_API_KEY_HERE"; // Replace this with your TMDB API Key
 
+    const state = {
+      movie: { page: 1 },
+      tv: { page: 1 },
+      anime: { page: 1 }
+    };
+
+    function getEndpoint(type, page) {
+      const base = `https://api.themoviedb.org/3`;
+      if (type === "movie") return `${base}/movie/popular?api_key=${API_KEY}&language=en-US&page=${page}`;
+      if (type === "tv") return `${base}/tv/popular?api_key=${API_KEY}&language=en-US&page=${page}`;
+      if (type === "anime") return `${base}/discover/tv?api_key=${API_KEY}&with_genres=16&language=en-US&page=${page}`;
+    }
+
+    function loadCategory(type) {
+      const page = state[type].page;
+      fetch(getEndpoint(type, page))
+        .then(res => res.json())
+        .then(data => {
+          const list = document.getElementById(`${type}-list`);
+          list.innerHTML = "";
+
+          data.results.forEach(item => {
+            const title = item.title || item.name;
+            const imgSrc = item.poster_path ? `https://image.tmdb.org/t/p/w200${item.poster_path}` : "https://via.placeholder.com/150x225?text=No+Image";
+            const card = document.createElement("div");
+            card.className = "item";
+            card.innerHTML = `<img src="${imgSrc}" alt="${title}" /><div>${title}</div>`;
+            list.appendChild(card);
+          });
+
+          document.getElementById(`${type}-page`).textContent = `Page ${page}`;
+        });
+    }
+
+    function nextPage(type) {
+      state[type].page++;
+      loadCategory(type);
+    }
+
+    function prevPage(type) {
+      if (state[type].page > 1) {
+        state[type].page--;
+        loadCategory(type);
+      }
+    }
+
+    // Initial load
+    ["movie", "tv", "anime"].forEach(loadCategory);
+  </script>
  
   <div class="modal" id="modal">
     <div class="modal-content">
