@@ -154,6 +154,24 @@
       document.getElementById("movie-modal").style.display = "block";
     }
 
+function showModal(item) {
+  const title = item.title || item.name;
+  const id = item.id;
+  const type = item.media_type || (item.name ? "tv" : "movie");
+
+  document.getElementById("modal-title").textContent = title;
+  document.getElementById("modal-img").src = item.poster_path
+    ? `https://image.tmdb.org/t/p/w300${item.poster_path}`
+    : "https://via.placeholder.com/200x300?text=No+Image";
+  document.getElementById("modal-overview").textContent = item.overview || "No description available.";
+
+  // ✅ Embed a player using a 3rd-party source like vidsrc
+  const iframe = document.getElementById("modal-iframe");
+  iframe.src = `https://vidsrc.to/embed/${type}/${id}`;
+  
+  document.getElementById("movie-modal").style.display = "block";
+}
+    
     function closeModal() {
       document.getElementById("movie-modal").style.display = "none";
     }
@@ -161,6 +179,14 @@
     // Initial load
     ["movie", "tv", "anime"].forEach(loadCategory);
   </script>
-
+<div class="modal-content">
+  <img id="modal-img" src="" alt="Poster" />
+  <div>
+    <h2 id="modal-title"></h2>
+    <p id="modal-overview"></p>
+    <iframe id="modal-iframe" width="100%" height="400" frameborder="0" allowfullscreen style="margin-top: 20px;"></iframe>
+  </div>
+</div>
+  
 </body>
 </html>
